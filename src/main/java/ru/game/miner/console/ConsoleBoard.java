@@ -4,8 +4,7 @@ import ru.game.miner.logics.*;
 
 /**
  * Поле игры, консольная реализация
- * TODO: сделать
- * Дата
+ * Дата 2.12.17
  */
 public class ConsoleBoard implements Board {
     private Cell[][] cells;
@@ -16,18 +15,26 @@ public class ConsoleBoard implements Board {
     }
 
     public void drawCell(int x, int y) {
-
+        System.out.println("****** SELECT ******");
+        this.redraw(false);
     }
 
     public void drawBang() {
-
+        System.out.println("****** BANG ******");
+        this.redraw(true);
     }
 
     public void drawCongratulate() {
-
+        System.out.println("****** CONGRATULATE ******");
     }
 
     private void redraw(boolean real) {
-        
+        for(Cell[] row : cells) {
+            for(Cell cell : row) {
+                cell.draw(System.out, real);
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }

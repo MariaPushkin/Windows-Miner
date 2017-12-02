@@ -18,7 +18,7 @@ public interface Cell<T> {
     /**
      * Установка значений
      */
-    void suggectEmpty();
+    void suggestEmpty();
     void suggestBomb();
 
     /**
