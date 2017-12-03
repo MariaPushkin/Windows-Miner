@@ -14,45 +14,22 @@ import java.awt.event.WindowEvent;
  * Главный класс
  */
 public class Main {
-    private static final JPanel controlPanel = new JPanel();
-    private static final GUIBoard board = new GUIBoard();
+
 
     public static void main(String[] arg) {
+        //выполнение строго после всех действий пользователя с интерфейсом
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                final JFrame frame = new JFrame();
-                frame.setTitle("Сапер");
-                frame.setLayout(new BorderLayout());
-                frame.setSize(500,500);
-                frame.add(board, BorderLayout.CENTER);
-                board.setBorder(new EmptyBorder(10,10,10,10));
-                frame.add(controlPanel, BorderLayout.PAGE_END);
-                controlPanel.setLayout(new FlowLayout());
-                final JButton generate = new JButton("Начать");
-                generate.addActionListener(
-                        new GUIAction(
-                                new Easy(), board,
-                                new GeneratorBoard() {
-                                    @Override
-                                    public Cell[][] generate() {
-                                        return new Cell[][] {
-                                                {new GUICell(), new GUICell()},
-                                                {new GUICell(), new GUICell()}
-                                        };
-                                    }
-                                }
-                        )
-                );
-                controlPanel.add(generate);
-                centre(frame);
-                frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                frame.addWindowListener(new WindowAdapter() {
+                GameWindow wnd = new GameWindow();
+                centre(wnd);
+                wnd.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                wnd.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
-                        closePerfom(frame);
+                        closePerfom(wnd);
                     }
                 });
-                frame.setVisible(true);
+                wnd.setVisible(true);
             }
         });
     }
@@ -70,4 +47,5 @@ public class Main {
         frame.dispose();
         System.exit(0);
     }
+
 }

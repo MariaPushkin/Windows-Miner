@@ -2,6 +2,7 @@ package ru.game.miner.gui;
 
 import ru.game.miner.logics.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,7 +26,12 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
     public void actionPerformed(ActionEvent e) { this.initGame(); }
 
     @Override
-    public void mouseClicked(MouseEvent e) { board.repaint(); }
+    public void mouseClicked(MouseEvent e) {
+        if(e.getX() >= 0 && e.getX() <= 49) {
+            this.board.cells[0][0].suggestBomb();
+        }
+        board.repaint();
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {}
