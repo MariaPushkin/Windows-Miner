@@ -17,6 +17,16 @@ import java.io.IOException;
 public class GUIBoard extends JPanel implements Board {
     public static final int PADDING = 30;
     public Cell<Graphics2D>[][] cells;
+    private BufferedImage image;
+
+    public GUIBoard() {
+        super();
+        try {
+            this.image = ImageIO.read(getClass().getResourceAsStream("/blank.png"));;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -29,9 +39,11 @@ public class GUIBoard extends JPanel implements Board {
                 for(int y = 0; y != cells[0].length; y++) {
                     //Rectangle2D.Double rect = new Rectangle2D.Double(x * PADDING, y * PADDING, PADDING, PADDING);
                     g2.setColor(Color.BLACK);
-                    g2.drawRect(x * PADDING + 2, y * PADDING + 2, PADDING, PADDING);
+                    g2.drawRect(x * PADDING, y * PADDING , PADDING, PADDING);
+                    g2.drawImage(image, x * GUIBoard.PADDING , y * GUIBoard.PADDING,
+                            GUIBoard.PADDING, GUIBoard.PADDING, null);
                     //g2.draw(rect);
-                    cells[x][y].draw(g2,false);
+                    cells[x][y].draw(g2,true);
                 }
             }
         }

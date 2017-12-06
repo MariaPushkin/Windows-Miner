@@ -8,6 +8,10 @@ package ru.game.miner.logics;
 public interface Cell<T> {
     boolean isBomb();
 
+    void setBomb();
+
+    void addBombNum(int num);
+
     /**
      * Пользователь предположил, что это бомба/пустая клетка
      * @return

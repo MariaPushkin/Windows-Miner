@@ -15,6 +15,12 @@ public class ConsoleCell implements Cell<PrintStream> {
     public ConsoleCell(boolean bomb) { this.bomb = bomb; }
 
     @Override
+    public void setBomb() {this.bomb = true;}
+
+    @Override
+    public void addBombNum(int num) {}
+
+    @Override
     public boolean isBomb() { return this.bomb; }
 
     @Override

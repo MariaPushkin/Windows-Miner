@@ -33,4 +33,15 @@ public interface SaperLogic {
      * @param bomb
      */
     void suggest(int x, int y, boolean bomb);
+
+    /**
+     * Расстановка бомб
+     * @param bomb
+     */
+    void putBombs(int bomb);
+
+    /**
+     * Расстановка цифр
+     */
+    void setDigits();
 }

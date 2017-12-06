@@ -23,41 +23,40 @@ public class GameWindow extends JFrame {
     public GameWindow() {
         super("САПЕР");
         this.setLayout(new BorderLayout());
-        this.setSize(300,300);
+        this.setSize(GUIBoard.PADDING * 9 + 6,GUIBoard.PADDING * 9 + 70);
         this.add(board, BorderLayout.CENTER);
         board.setBorder(new EmptyBorder(10,10,10,10));
-        controlPanel.setLayout(new GridLayout(4,1,5,5));
-        this.add(controlPanel, BorderLayout.EAST);
-        final JButton easyLevel = new JButton("Тестовый");
-        final JButton notSoEasyLevel = new JButton("Простой");
-        final JButton normalLevel = new JButton("Нормальный");
-        final JButton hardLevel = new JButton("Сложный");
-        easyLevel.addActionListener(
+        controlPanel.setLayout(new FlowLayout());
+        this.add(controlPanel, BorderLayout.PAGE_END);
+        final JButton game = new JButton("Старт");
+
+        game.addActionListener(
                 new GUIAction(
                         new Easy(), board,
                         new GeneratorBoard() {
                             @Override
                             public Cell[][] generate() {
-                                return new Cell[][] {
-                                        {new GUICell(true,0,0), new GUICell(false,1,0)},
-                                        {new GUICell(true, 0,1), new GUICell(false,1,1)}
-                                };
+                                Cell[][] cells = new Cell[9][9];
+                                //boolean f = false;
+                                for (int x = 0; x < 9; x++) {
+                                    for (int y = 0; y < 9; y++) {
+                                        //if(x == 3 || x == 5) f = true;
+                                        //else f = false;
+                                        cells[x][y] = new GUICell(false,x,y);
+                                    }
+                                }
+                                return cells;
                             }
                         }
-                )
+                ) {
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        game.setText("Рестрат");
+                        this.initGame();
+                    }
+                }
         );
-
-        easyLevel.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                GameWindow.this.setSize(GUIBoard.PADDING * 2 + easyLevel.getSize().width + 20,GUIBoard.PADDING * 3 + 20);
-                GameWindow.this.setResizable(false);
-            }
-        });
-        controlPanel.add(easyLevel);
-        controlPanel.add(notSoEasyLevel);
-        controlPanel.add(normalLevel);
-        controlPanel.add(hardLevel);
+        controlPanel.add(game);
+        GameWindow.this.setResizable(false);
     }
 }

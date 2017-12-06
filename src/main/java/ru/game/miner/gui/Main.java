@@ -22,13 +22,13 @@ public class Main {
             public void run() {
                 GameWindow wnd = new GameWindow();
                 centre(wnd);
-                wnd.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                wnd.addWindowListener(new WindowAdapter() {
+                wnd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                /*wnd.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosing(WindowEvent e) {
                         closePerfom(wnd);
                     }
-                });
+                });*/
                 wnd.setVisible(true);
             }
         });
