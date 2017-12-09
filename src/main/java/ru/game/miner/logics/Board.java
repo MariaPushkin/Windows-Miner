@@ -28,4 +28,6 @@ public interface Board {
      * Рисует поздравление при выигрыше игры
      */
     void drawCongratulate();
+
+    void openNearEmpty(int x, int y);
 }

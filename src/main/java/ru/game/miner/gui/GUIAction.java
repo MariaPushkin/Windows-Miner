@@ -38,19 +38,18 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         this.clicks++;
                         if(this.clicks == 1) {
-                            this.logic.putBombs(10);
+                            this.logic.putBombs(10,x,y);
                             this.logic.setDigits();
                         }
-                        this.logic.suggest(x, y, false);
+                        this.select(x,y,false);
+                        this.board.openNearEmpty(x,y);
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
-                        this.logic.suggest(x, y, true);
+                        this.select(x,y, true);
                     }
-                    x = this.board.cells.length - 1;
-                    y = this.board.cells[0].length - 1;
                 }
             }
         }
-    this.board.repaint();
+        this.board.repaint();
     }
 
     @Override
@@ -63,7 +62,10 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
     public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent mouseEvent) {
+    public void mouseExited(MouseEvent mouseEvent) { }
 
+    public void reset() {
+        this.clicks = 0;
+        this.board.reset();
     }
 }

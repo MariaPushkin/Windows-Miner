@@ -50,13 +50,18 @@ public class GUICell implements Cell<Graphics2D> {
     @Override
     public void addBombNum(int num) {
         this.bombNum = num;
-        String img = "/" + num + ".png";
-        try {
-            digitImage = ImageIO.read(getClass().getResourceAsStream(img));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(num > 0) {
+            String img = "/" + num + ".png";
+            try {
+                digitImage = ImageIO.read(getClass().getResourceAsStream(img));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    @Override
+    public int getBombNum() {return this.bombNum;}
 
     @Override
     public boolean isBomb() { return this.bomb; }
@@ -80,15 +85,16 @@ public class GUICell implements Cell<Graphics2D> {
         }
     }
 
-
     @Override
-    public void draw(Graphics2D paint, boolean real) {
+    public void draw(Graphics2D paint, boolean real, boolean bang) {
         if(real) {
             if(this.isBomb()) {
                 paint.drawImage(bombImage, this.posX * GUIBoard.PADDING + 3, this.posY * GUIBoard.PADDING,
                         GUIBoard.PADDING, GUIBoard.PADDING, null);
-                //paint.drawImage(explosionImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
-                  //      GUIBoard.PADDING, GUIBoard.PADDING, null);
+                if (bang) {
+                    paint.drawImage(explosionImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
+                          GUIBoard.PADDING, GUIBoard.PADDING, null);
+                }
             } else {
                 if (this.bombNum == 0) {
                     paint.drawImage(blankImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
@@ -103,8 +109,13 @@ public class GUICell implements Cell<Graphics2D> {
                 paint.drawImage(flagImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
                         GUIBoard.PADDING, GUIBoard.PADDING, null);
             } else if(this.suggestEmpty) {
-                paint.drawImage(blankImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
-                        GUIBoard.PADDING, GUIBoard.PADDING, null);
+                if (this.bombNum == 0) {
+                    paint.drawImage(blankImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
+                            GUIBoard.PADDING, GUIBoard.PADDING, null);
+                }else {
+                    paint.drawImage(digitImage, this.posX * GUIBoard.PADDING, this.posY * GUIBoard.PADDING,
+                            GUIBoard.PADDING, GUIBoard.PADDING, null);
+                }
             } else {
                 paint.drawImage(cellImage, this.posX * GUIBoard.PADDING + 2, this.posY * GUIBoard.PADDING + 2,
                         GUIBoard.PADDING - 4, GUIBoard.PADDING - 4, null);

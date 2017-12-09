@@ -37,11 +37,8 @@ public class GameWindow extends JFrame {
                             @Override
                             public Cell[][] generate() {
                                 Cell[][] cells = new Cell[9][9];
-                                //boolean f = false;
                                 for (int x = 0; x < 9; x++) {
                                     for (int y = 0; y < 9; y++) {
-                                        //if(x == 3 || x == 5) f = true;
-                                        //else f = false;
                                         cells[x][y] = new GUICell(false,x,y);
                                     }
                                 }
@@ -53,6 +50,7 @@ public class GameWindow extends JFrame {
                     {
                         game.setText("Рестрат");
                         this.initGame();
+                        this.reset();
                     }
                 }
         );

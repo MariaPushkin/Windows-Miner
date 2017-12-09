@@ -31,10 +31,12 @@ public class ConsoleBoard implements Board {
     private void redraw(boolean real) {
         for(Cell[] row : cells) {
             for(Cell cell : row) {
-                cell.draw(System.out, real);
+                cell.draw(System.out, real, false);
             }
             System.out.println();
         }
         System.out.println();
     }
+
+    public void openNearEmpty(int x, int y) {}
 }

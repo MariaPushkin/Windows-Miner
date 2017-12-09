@@ -20,7 +20,7 @@ public class Easy implements SaperLogic {
     @Override
     public boolean shouldBang(int x, int y) {
         final Cell selected = this.cells[x][y];
-        return selected.isBomb() && !selected.isSuggestBomb();
+        return selected.isBomb() && selected.isSuggestEmpty();
     }
 
     @Override
@@ -51,13 +51,13 @@ public class Easy implements SaperLogic {
      * TODO: сделать распределение независимым от размера
      */
     @Override
-    public void putBombs(int bomb) {
+    public void putBombs(int bomb, int x, int y) {
         Random r1 = new Random();
         Set<Integer> xs = new HashSet<>();
         Integer tempInt;
         while (xs.size() < bomb){
             while (xs.contains(tempInt = r1.nextInt(88)));
-            if(tempInt / 10 < 9 && tempInt % 10 < 9) {
+            if(tempInt / 10 < 9 && tempInt % 10 < 9 && tempInt / 10 != x && tempInt % 10 != y) {
                 xs.add(tempInt);
             }
         }
@@ -70,6 +70,20 @@ public class Easy implements SaperLogic {
 
     @Override
     public void setDigits() {
-        this.cells[0][0].addBombNum(1);
+        for (int x = 0; x != this.cells.length; x++) {
+            for (int y = 0; y != this.cells[0].length; y++) {
+                if(!this.cells[x][y].isBomb()) {
+                    int count = 0;
+                    for(int xx = x - 1; xx < x + 2 && xx < this.cells.length; xx++) {
+                        for(int yy = y - 1; yy < y + 2 && yy < this.cells[0].length; yy++) {
+                            if(xx == -1) xx++;
+                            if(yy == -1) yy++;
+                            if (this.cells[xx][yy].isBomb()) count++;
+                        }
+                    }
+                    this.cells[x][y].addBombNum(count);
+                }
+            }
+        }
     }
 }

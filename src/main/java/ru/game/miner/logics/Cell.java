@@ -12,6 +12,8 @@ public interface Cell<T> {
 
     void addBombNum(int num);
 
+    int getBombNum();
+
     /**
      * Пользователь предположил, что это бомба/пустая клетка
      * @return
@@ -28,5 +30,5 @@ public interface Cell<T> {
     /**
      * Рисует клетку
      */
-    void draw(T paint, boolean real);
+    void draw(T paint, boolean real, boolean bang);
 }
