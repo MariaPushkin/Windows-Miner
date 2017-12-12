@@ -7,6 +7,7 @@ public class BaseAction implements UserAction {
     private final GeneratorBoard generator;
     private final Board board;
     private final SaperLogic logic;
+    private int bombsCounter = 0;
 
     public BaseAction(final SaperLogic logic, final Board board, final GeneratorBoard generator) {
         this.generator = generator;
@@ -26,7 +27,7 @@ public class BaseAction implements UserAction {
         if(this.logic.shouldBang(x, y)) {
             this.board.drawBang();
         }
-        if(this.logic.finish()) {
+        if(this.logic.finish(this.board.getBombsAmount())) {
             this.board.drawCongratulate();
         }
     }

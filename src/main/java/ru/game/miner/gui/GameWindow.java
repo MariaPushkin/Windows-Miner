@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  */
 public class GameWindow extends JFrame {
     private final JPanel controlPanel = new JPanel();
-    private final GUIBoard board = new GUIBoard();
+    private final GUIBoard board = new GUIBoard(10);
 
     public GameWindow() {
         super("САПЕР");
@@ -29,6 +29,7 @@ public class GameWindow extends JFrame {
         controlPanel.setLayout(new FlowLayout());
         this.add(controlPanel, BorderLayout.PAGE_END);
         final JButton game = new JButton("Старт");
+        JLabel bombsAmount = new JLabel("Мины - 0/0");
 
         game.addActionListener(
                 new GUIAction(
@@ -44,16 +45,18 @@ public class GameWindow extends JFrame {
                                 }
                                 return cells;
                             }
-                        }
+                        }, bombsAmount
                 ) {
                     public void actionPerformed(ActionEvent e)
                     {
                         game.setText("Рестрат");
                         this.initGame();
                         this.reset();
+                        bombsAmount.setText("Мины - " + 0 + "/" + 10);
                     }
                 }
         );
+        controlPanel.add(bombsAmount);
         controlPanel.add(game);
         GameWindow.this.setResizable(false);
     }

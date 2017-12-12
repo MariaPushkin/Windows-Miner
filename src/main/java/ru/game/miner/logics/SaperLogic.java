@@ -24,7 +24,7 @@ public interface SaperLogic {
      * Проверка окончена ли игра
      * @return
      */
-    boolean finish();
+    boolean finish(int bombs);
 
     /**
      * Отметить поле предположения пользователя

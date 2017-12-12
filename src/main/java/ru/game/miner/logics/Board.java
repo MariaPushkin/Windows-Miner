@@ -29,5 +29,16 @@ public interface Board {
      */
     void drawCongratulate();
 
+    /**
+     * Открывает пустые соседние ячейки
+     * @param x
+     * @param y
+     */
     void openNearEmpty(int x, int y);
+
+    /**
+     * Возвращает количество бомб на доске
+     * @return
+     */
+    int getBombsAmount();
 }

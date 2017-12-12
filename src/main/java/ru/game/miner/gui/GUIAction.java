@@ -2,6 +2,7 @@ package ru.game.miner.gui;
 
 import ru.game.miner.logics.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,18 +12,19 @@ import java.awt.event.MouseListener;
 /**
  * Класс событие
  * Дата
- * TODO доделать, ОБНУЛЕНИЕ МЧЕТЧИКА ПРИ РЕСТАРТЕ
  */
 public class GUIAction extends BaseAction implements ActionListener, MouseListener {
     private GUIBoard board;
     private SaperLogic logic;
     private int clicks = 0;
+    private int bombsCounter = 0;
+    private JLabel bombsCounterDisplay;
 
-    public GUIAction(SaperLogic logic, GUIBoard board, GeneratorBoard generator) {
+    public GUIAction(SaperLogic logic, GUIBoard board, GeneratorBoard generator, JLabel bombsCounterDisplay) {
         super(logic, board, generator);
         this.board = board;
         this.logic = logic;
-        //this.logic.loadBoard(this.board.cells);
+        this.bombsCounterDisplay = bombsCounterDisplay;
         this.board.addMouseListener(this);
     }
 
@@ -38,16 +40,22 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
                     if (e.getButton() == MouseEvent.BUTTON1) {
                         this.clicks++;
                         if(this.clicks == 1) {
-                            this.logic.putBombs(10,x,y);
+                            this.logic.putBombs(this.board.getBombsAmount(),x,y);
                             this.logic.setDigits();
                         }
                         this.select(x,y,false);
                         this.board.openNearEmpty(x,y);
                     } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        if(this.board.cells[x][y].isSuggestBomb()) this.bombsCounter--;
+                        else this.bombsCounter++;
                         this.select(x,y, true);
+                        this.bombsCounterDisplay.setText("Мины - " + this.bombsCounter + "/" + this.board.getBombsAmount());
                     }
                 }
             }
+        }
+        if(this.board.isFinish()) {
+            this.bombsCounterDisplay.setText("Мины - " + this.board.getBombsAmount() + "/" + this.board.getBombsAmount());
         }
         this.board.repaint();
     }
@@ -67,5 +75,6 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
     public void reset() {
         this.clicks = 0;
         this.board.reset();
+        this.bombsCounter = 0;
     }
 }

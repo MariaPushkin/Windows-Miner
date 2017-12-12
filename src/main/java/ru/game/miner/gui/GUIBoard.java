@@ -5,10 +5,11 @@ import ru.game.miner.logics.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  * gui реализация доски
@@ -20,14 +21,18 @@ public class GUIBoard extends JPanel implements Board {
     public Cell<Graphics2D>[][] cells;
     private BufferedImage image;
     private boolean bang = false;
+    private boolean finish = false;
+    //количество бомб
+    private int bombs;
 
-    public GUIBoard() {
+    public GUIBoard(int bombs) {
         super();
         try {
             this.image = ImageIO.read(getClass().getResourceAsStream("/blank.png"));;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.bombs = bombs;
     }
 
     @Override
@@ -44,10 +49,12 @@ public class GUIBoard extends JPanel implements Board {
                     g2.drawRect(x * PADDING, y * PADDING , PADDING, PADDING);
                     g2.drawImage(image, x * GUIBoard.PADDING , y * GUIBoard.PADDING,
                             GUIBoard.PADDING, GUIBoard.PADDING, null);
-                    //g2.draw(rect);
-                    if(bang) {
+                    if(this.bang) {
                         cells[x][y].draw(g2, true, true);
-                    } else {
+                    } else if (this.finish) {
+                        cells[x][y].draw(g2, true, false);
+                    }
+                    else {
                         cells[x][y].draw(g2, false, false);
                     }
                 }
@@ -63,13 +70,23 @@ public class GUIBoard extends JPanel implements Board {
     public void drawCell(int x, int y) { this.repaint(); }
 
     public  void drawBang() {
-        bang = true;
-        //this.repaint();
+        this.bang = true;
+        JOptionPane.showMessageDialog(null,
+                "ВЫ ПРОИГРАЛИ!!!",
+                "САПЕР",
+                JOptionPane.PLAIN_MESSAGE);
     }
 
-    public void drawCongratulate() {}
+    public void drawCongratulate() {
+        this.finish = true;
+        JOptionPane.showMessageDialog(null,
+                "ПОБЕДА!!!",
+                "САПЕР",
+                JOptionPane.PLAIN_MESSAGE);
+    }
 
     public void reset() {
+        this.finish = false;
         this.bang = false;
     }
 
@@ -111,52 +128,81 @@ public class GUIBoard extends JPanel implements Board {
             while (i < temp.size()) {
                 int tx = temp.get(i).x;
                 int ty = temp.get(i).y;
-                if (tx > 0) {
-                    if (!temp.get(i).cell.isBomb()) {
-                        this.cells[tx - 1][ty].suggestEmpty();
-                        if (this.cells[tx - 1][ty].getBombNum() == 0) {
-                            CellXY t2 = new CellXY(this.cells[tx - 1][ty], tx - 1, ty);
-                            if (!temp.contains(t2)) {
-                                temp.add(t2);
+                    if (tx > 0) {
+                        if (!this.cells[tx - 1][ty].isBomb() && !this.cells[tx - 1][ty].isSuggestBomb()) {
+                            this.cells[tx - 1][ty].suggestEmpty();
+                            if (this.cells[tx - 1][ty].getBombNum() == 0) {
+                                CellXY t2 = new CellXY(this.cells[tx - 1][ty], tx - 1, ty);
+                                if (!temp.contains(t2)) {
+                                    temp.add(t2);
+                                }
+                            }
+                        }
+                        if (ty > 0) {
+                            if (!this.cells[tx - 1][ty - 1].isBomb() && !this.cells[tx - 1][ty - 1].isSuggestBomb()
+                                    && this.cells[tx - 1][ty - 1].getBombNum() > 0) {
+                                this.cells[tx - 1][ty - 1].suggestEmpty();
+                            }
+                        }
+                        if (ty < this.cells[0].length - 1) {
+                            if (!this.cells[tx - 1][ty + 1].isBomb() && !this.cells[tx - 1][ty + 1].isSuggestBomb()
+                                    && this.cells[tx - 1][ty + 1].getBombNum() > 0) {
+                                this.cells[tx - 1][ty + 1].suggestEmpty();
                             }
                         }
                     }
-                }
-                if (tx < this.cells.length - 1) {
-                    if (!this.cells[tx + 1][ty].isBomb()) {
-                        this.cells[tx + 1][ty].suggestEmpty();
-                        if (this.cells[tx + 1][ty].getBombNum() == 0) {
-                            CellXY t2 = new CellXY(this.cells[tx + 1][ty], tx + 1, ty);
-                            if (!temp.contains(t2)) {
-                                temp.add(t2);
+                    if (tx < this.cells.length - 1) {
+                        if (!this.cells[tx + 1][ty].isBomb() && !this.cells[tx + 1][ty].isSuggestBomb()) {
+                            this.cells[tx + 1][ty].suggestEmpty();
+                            if (this.cells[tx + 1][ty].getBombNum() == 0) {
+                                CellXY t2 = new CellXY(this.cells[tx + 1][ty], tx + 1, ty);
+                                if (!temp.contains(t2)) {
+                                    temp.add(t2);
+                                }
+                            }
+                        }
+                        if (ty > 0) {
+                            if (!this.cells[tx + 1][ty - 1].isBomb() && !this.cells[tx + 1][ty - 1].isSuggestBomb()
+                                    && this.cells[tx + 1][ty - 1].getBombNum() > 0) {
+                                this.cells[tx + 1][ty - 1].suggestEmpty();
+                            }
+                        }
+                        if (ty < this.cells[0].length - 1) {
+                            if (!this.cells[tx + 1][ty + 1].isBomb() && !this.cells[tx + 1][ty + 1].isSuggestBomb()
+                                    && this.cells[tx + 1][ty + 1].getBombNum() > 0) {
+                                this.cells[tx + 1][ty + 1].suggestEmpty();
                             }
                         }
                     }
-                }
-                if (ty > 0) {
-                    if (!this.cells[tx][ty - 1].isBomb()) {
-                        this.cells[tx][ty - 1].suggestEmpty();
-                        if (this.cells[tx][ty - 1].getBombNum() == 0) {
-                            CellXY t2 = new CellXY(this.cells[tx][ty - 1], tx, ty - 1);
-                            if (!temp.contains(t2)) {
-                                temp.add(t2);
+                    if (ty > 0) {
+                        if (!this.cells[tx][ty - 1].isBomb() && !this.cells[tx][ty - 1].isSuggestBomb()) {
+                            this.cells[tx][ty - 1].suggestEmpty();
+                            if (this.cells[tx][ty - 1].getBombNum() == 0) {
+                                CellXY t2 = new CellXY(this.cells[tx][ty - 1], tx, ty - 1);
+                                if (!temp.contains(t2)) {
+                                    temp.add(t2);
+                                }
                             }
                         }
                     }
-                }
-                if (ty < this.cells[0].length - 1) {
-                    if (!this.cells[tx][ty + 1].isBomb()) {
-                        this.cells[tx][ty + 1].suggestEmpty();
-                        if (this.cells[tx][ty + 1].getBombNum() == 0) {
-                            CellXY t2 = new CellXY(this.cells[tx][ty + 1], tx, ty + 1);
-                            if (!temp.contains(t2)) {
-                                temp.add(t2);
+                    if (ty < this.cells[0].length - 1) {
+                        if (!this.cells[tx][ty + 1].isBomb() && !this.cells[tx][ty + 1].isSuggestBomb()) {
+                            this.cells[tx][ty + 1].suggestEmpty();
+                            if (this.cells[tx][ty + 1].getBombNum() == 0) {
+                                CellXY t2 = new CellXY(this.cells[tx][ty + 1], tx, ty + 1);
+                                if (!temp.contains(t2)) {
+                                    temp.add(t2);
+                                }
                             }
                         }
                     }
-                }
                 i++;
-            }
+                }
         }
     }
+
+    @Override
+    public int getBombsAmount() { return this.bombs; }
+
+    public boolean isFinish() { return this.finish; }
 }

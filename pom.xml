@@ -54,7 +54,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>ru.lesson.clinic.ClinicRunner</mainClass>
+                            <mainClass>ru.game.miner.gui.Main</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                         <manifestEntries>

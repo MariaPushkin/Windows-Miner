@@ -24,15 +24,15 @@ public class Easy implements SaperLogic {
     }
 
     @Override
-    public boolean finish() {
-        boolean finish = false;
+    public boolean finish(int bombs) {
+        int counter = 0;
         for(Cell[] row : cells) {
             for(Cell cell : row) {
-                finish = ((cell.isSuggestBomb() && cell.isBomb()) ||
-                        (cell.isSuggestEmpty() && !cell.isBomb()));
+                if((cell.isSuggestEmpty() && !cell.isBomb())) counter++;
             }
         }
-        return finish;
+        if (counter == this.cells.length * this.cells[0].length - bombs) return true;
+        return false;
     }
 
     @Override
@@ -62,8 +62,6 @@ public class Easy implements SaperLogic {
             }
         }
         for (int m : xs) {
-            System.out.println(m / 10);
-            System.out.println(m % 10);
             this.cells[m / 10][m % 10].setBomb();
         }
     }

@@ -39,4 +39,6 @@ public class ConsoleBoard implements Board {
     }
 
     public void openNearEmpty(int x, int y) {}
+
+    public int getBombsAmount() { return -1; }
 }
