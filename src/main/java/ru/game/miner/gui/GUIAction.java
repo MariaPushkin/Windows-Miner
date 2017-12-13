@@ -72,6 +72,9 @@ public class GUIAction extends BaseAction implements ActionListener, MouseListen
     @Override
     public void mouseExited(MouseEvent mouseEvent) { }
 
+    /**
+     * Сброс всех значений в начальное пложение
+     */
     public void reset() {
         this.clicks = 0;
         this.board.reset();

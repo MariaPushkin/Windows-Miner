@@ -44,7 +44,6 @@ public class GUIBoard extends JPanel implements Board {
         if(this.cells != null) {
             for(int x = 0; x != cells.length; x++) {
                 for(int y = 0; y != cells[0].length; y++) {
-                    //Rectangle2D.Double rect = new Rectangle2D.Double(x * PADDING, y * PADDING, PADDING, PADDING);
                     g2.setColor(Color.BLACK);
                     g2.drawRect(x * PADDING, y * PADDING , PADDING, PADDING);
                     g2.drawImage(image, x * GUIBoard.PADDING , y * GUIBoard.PADDING,
@@ -69,6 +68,9 @@ public class GUIBoard extends JPanel implements Board {
 
     public void drawCell(int x, int y) { this.repaint(); }
 
+    /**
+     * Выводит диалоговое окно с сообщением о проигрыше
+     */
     public  void drawBang() {
         this.bang = true;
         JOptionPane.showMessageDialog(null,
@@ -77,6 +79,9 @@ public class GUIBoard extends JPanel implements Board {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Выводит диалоговое окно с сообщением о выигрыше
+     */
     public void drawCongratulate() {
         this.finish = true;
         JOptionPane.showMessageDialog(null,
@@ -85,11 +90,23 @@ public class GUIBoard extends JPanel implements Board {
                 JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Возвращает все флаги в начальное состояние
+     */
     public void reset() {
         this.finish = false;
         this.bang = false;
     }
 
+    /**
+     * Открывает все пустые ячейки, расположенные рядом с ячейкой, которую открыл пользватель, если она пустая
+     * Создается массив temp, содержащий ячейку и ее позицию на доске.
+     * Для каждой ячейке в массиве рассматриваются ее ближайшие соседи. Открываются все пустые из них
+     * (по диагонале только если есть цифра, если ячейка помечена пользователем как бомба, она не открывется).
+     * Польностью пустые ячейки (не содаржащие бомб и цифр добавляются в массив.
+     * @param x координата x выбранной пользователем ячейки
+     * @param y координата y выбранной пользователем ячейки
+     */
     public void openNearEmpty( int x, int y) {
         if(this.cells[x][y].getBombNum() == 0) {
             class CellXY {
