@@ -9,8 +9,6 @@ import java.io.IOException;
 
 /**
  * gui ячейка
- * Дата
- * TODO доделать
  */
 public class GUICell implements Cell<Graphics2D> {
     /**

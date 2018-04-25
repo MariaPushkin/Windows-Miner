@@ -13,8 +13,6 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  * gui реализация доски
- * Дата
- * TODO доделать
  */
 public class GUIBoard extends JPanel implements Board {
     public static final int PADDING = 30;

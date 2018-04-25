@@ -48,7 +48,6 @@ public class Easy implements SaperLogic {
      * Расстановка бомб
      * @param bomb количество бомб
      * Дата 6.12.17
-     * TODO: сделать распределение независимым от размера
      */
     @Override
     public void putBombs(int bomb, int x, int y) {

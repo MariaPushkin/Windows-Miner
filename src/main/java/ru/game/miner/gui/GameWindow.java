@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 /**
  * Игровое окно
  * Дата 3.12.17
- * TODO добавить счетчик бомб и время
  */
 public class GameWindow extends JFrame {
     private final JPanel controlPanel = new JPanel();
