@@ -7,15 +7,22 @@
 
 Цифры обозначают количество мин в радиусе одной клетки (по вертикали, горизонатели и диагонали) вокруг клетки с фифрой.
 
-
 <h3>Начало игры:</h3>
-![Главный экран игры](https://github.com/MariaPushkin/Windows-Miner/blob/master/screenshots/gameStart.PNG)
+<p align="center">
+<img src="screenshots/gameStart.PNG" alt="Начало игры"/>
+</p>
 
 <h3>Процесс игры:</h3>
-![Главный экран игры](https://github.com/MariaPushkin/Windows-Miner/blob/master/screenshots/gameProcess.PNG)
+<p align="center">
+<img src="screenshots/gameProcess.PNG" alt="Процесс игры"/>
+</p>
 
 <h3>Победа:</h3>
-![Главный экран игры](https://github.com/MariaPushkin/Windows-Miner/blob/master/screenshots/win.PNG)
+<p align="center">
+<img src="screenshots/win.PNG" alt="Победа"/>
+</p>
 
 <h3>Поражение:</h3>
-![Главный экран игры](https://github.com/MariaPushkin/Windows-Miner/blob/master/screenshots/lose.PNG)
+<p align="center">
+<img src="screenshots/lose.PNG" alt="Поражение"/>
+</p>
